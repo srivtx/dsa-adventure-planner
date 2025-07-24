@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Adventure Planner - Complete</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="video-styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 DSA Adventure Planner</h1>
+            <p class="subtitle">Master Data Structures & Algorithms step by step!</p>
+            
+            <!-- Theme Toggle -->
+            <div class="theme-toggle">
+                <button id="theme-btn" class="theme-btn">🌙</button>
+            </div>
+            
+            <div class="stats">
+                <div class="stat-card">
+                    <span class="stat-number" id="current-level">1</span>
+                    <span class="stat-label">Current Level</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="total-solved">0</span>
+                    <span class="stat-label">Problems Solved</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="total-problems">400</span>
+                    <span class="stat-label">Total Problems</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="completion-rate">0%</span>
+                    <span class="stat-label">Completion</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Daily Challenge -->
+            <div class="daily-challenge" id="daily-challenge">
+                <div class="challenge-content">
+                    <h3>🌟 Today's Challenge</h3>
+                    <p id="challenge-text">Solve 3 array problems to start your journey!</p>
+                    <div class="challenge-progress">
+                        <div class="challenge-bar">
+                            <div class="challenge-fill" id="challenge-fill" style="width: 0%"></div>
+                        </div>
+                        <span id="challenge-progress-text">0/3 completed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search and Filters -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="search-input" placeholder="🔍 Search problems...">
+                <div class="filters">
+                    <select class="filter-select" id="difficulty-filter">
+                        <option value="all">All Difficulties</option>
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                    </select>
+                    <button class="filter-btn" id="solved-filter">Show Solved Only</button>
+                    <button class="filter-btn" id="unsolved-filter">Show Unsolved Only</button>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="navigation-tabs">
+                <button class="nav-tab active" data-level="all">📊 Overview</button>
+                <button class="nav-tab" data-level="1">🔢 Arrays</button>
+                <button class="nav-tab" data-level="2">👆 Pointers</button>
+                <button class="nav-tab" data-level="3">🔗 Lists</button>
+                <button class="nav-tab" data-level="4">🌳 Strings</button>
+                <button class="nav-tab" data-level="5">🕸️ Trees</button>
+                <button class="nav-tab" data-level="6">⚡ DP</button>
+                <button class="nav-tab" data-level="7">📊 Heaps</button>
+                <button class="nav-tab" data-level="8">🎯 Advanced</button>
+            </div>
+
+            <!-- Overview Content -->
+            <div class="level-content active" id="content-all">
+                <div class="quick-stats">
+                    <div class="quick-stat">
+                        <span class="quick-stat-number" id="unlocked-levels">1</span>
+                        <span class="quick-stat-label">Unlocked Levels</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-number" id="easy-solved">0</span>
+                        <span class="quick-stat-label">Easy Solved</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-number" id="medium-solved">0</span>
+                        <span class="quick-stat-label">Medium Solved</span>
+                    </div>
+                    <div class="quick-stat">
+                        <span class="quick-stat-number" id="streak">0</span>
+                        <span class="quick-stat-label">Current Streak</span>
+                    </div>
+                </div>
+                
+                <!-- Achievement System -->
+                <div class="achievements" id="achievements">
+                    <h3>🏆 Achievements</h3>
+                    <div class="achievement-grid" id="achievement-grid">
+                        <!-- Achievements will be generated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="levels-grid" id="levels-container">
+                    <!-- Levels will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Individual Level Contents -->
+            <div class="level-content" id="content-1">
+                <div id="level-1-detail"></div>
+            </div>
+            <div class="level-content" id="content-2">
+                <div id="level-2-detail"></div>
+            </div>
+            <div class="level-content" id="content-3">
+                <div id="level-3-detail"></div>
+            </div>
+            <div class="level-content" id="content-4">
+                <div id="level-4-detail"></div>
+            </div>
+            <div class="level-content" id="content-5">
+                <div id="level-5-detail"></div>
+            </div>
+            <div class="level-content" id="content-6">
+                <div id="level-6-detail"></div>
+            </div>
+            <div class="level-content" id="content-7">
+                <div id="level-7-detail"></div>
+            </div>
+            <div class="level-content" id="content-8">
+                <div id="level-8-detail"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Code Editor Modal -->
+    <div class="modal" id="problem-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Code Practice</h3>
+                <button class="close-btn" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-content">
+                <div class="code-editor-container">
+                    <textarea id="code-editor" class="code-editor" placeholder="// Write your solution here..."></textarea>
+                    <div class="editor-actions">
+                        <button class="run-btn" id="run-code">▶️ Test Code</button>
+                        <button class="hint-btn" id="show-hint">💡 Show Hint</button>
+                        <button class="solution-btn" id="show-solution">👁️ Show Solution</button>
+                    </div>
+                </div>
+                <div class="output-container">
+                    <div class="output" id="code-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Export -->
+    <div class="export-section">
+        <button class="export-btn" id="export-progress">📤 Export Progress</button>
+        <input type="file" id="import-progress" accept=".json" style="display: none;">
+        <button class="import-btn" id="import-btn">📥 Import Progress</button>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="achievements.js"></script>
+    <!-- Load config.js only if it exists (for local development) -->
+    <script>
+        // Try to load config.js for local development
+        const script = document.createElement('script');
+        script.src = 'config.js';
+        script.onerror = function() {
+            console.log('No config.js found - using fallback for GitHub Pages');
+        };
+        document.head.appendChild(script);
+    </script>
+    <script src="game.js"></script>
+</body>
+</html>

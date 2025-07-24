@@ -1,0 +1,28 @@
+# DSA Adventure Planner - GitHub Pages Setup
+
+## Files to ignore for security
+config.js
+
+# Node modules (if you add any build tools later)
+node_modules/
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
