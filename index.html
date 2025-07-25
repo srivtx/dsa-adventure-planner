@@ -174,8 +174,21 @@
 
     <script src="data.js"></script>
     <script src="achievements.js"></script>
-    <!-- Load config.js synchronously to ensure API key is available -->
-    <script src="config.js"></script>
+    <!-- Load config.js (production) or config.local.js (development) -->
+    <script>
+        // Try to load config.js first (production), then config.local.js (development)
+        const script = document.createElement('script');
+        script.src = 'config.js';
+        script.onerror = function() {
+            const localScript = document.createElement('script');
+            localScript.src = 'config.local.js';
+            localScript.onerror = function() {
+                console.log('No config file found - using default settings');
+            };
+            document.head.appendChild(localScript);
+        };
+        document.head.appendChild(script);
+    </script>
     <script src="game.js"></script>
 </body>
 </html>

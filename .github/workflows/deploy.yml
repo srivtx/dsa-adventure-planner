@@ -24,14 +24,25 @@ jobs:
       env:
         YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
       run: |
+        # First, remove config.js from .gitignore temporarily for this build
+        if [ -f .gitignore ]; then
+          sed -i '/^config\.js$/d' .gitignore
+        fi
+        
         # Create a production config if YouTube API key is provided via secrets
         if [ ! -z "$YOUTUBE_API_KEY" ]; then
           echo "window.YOUTUBE_API_KEY = '$YOUTUBE_API_KEY';" > config.js
           echo "✅ API key configured for production"
+          echo "Contents of config.js:"
+          cat config.js
         else
           echo "console.log('Running in demo mode - YouTube API not configured');" > config.js
           echo "⚠️ No API key found - using demo mode"
         fi
+        
+        # Verify the file exists and show file list
+        echo "Files in root directory:"
+        ls -la
     
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3

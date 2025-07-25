@@ -22,7 +22,7 @@ git clone https://github.com/yourusername/dsa-adventure-planner.git
 cd dsa-adventure-planner
 ```
 
-2. Create a `config.js` file for your YouTube API key:
+2. Create a `config.local.js` file for your YouTube API key:
 ```javascript
 window.YOUTUBE_API_KEY = 'your-youtube-api-key-here';
 ```

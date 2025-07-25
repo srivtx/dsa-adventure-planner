@@ -7,10 +7,27 @@
     <h1>API Key Test</h1>
     <div id="result"></div>
     
-    <!-- Load config.js synchronously -->
-    <script src="config.js"></script>
-    
+    <!-- Load config files -->
     <script>
+        // Try to load config.js first (production), then config.local.js (development)
+        const script = document.createElement('script');
+        script.src = 'config.js';
+        script.onload = function() {
+            checkAPIKey();
+        };
+        script.onerror = function() {
+            const localScript = document.createElement('script');
+            localScript.src = 'config.local.js';
+            localScript.onload = function() {
+                checkAPIKey();
+            };
+            localScript.onerror = function() {
+                checkAPIKey();
+            };
+            document.head.appendChild(localScript);
+        };
+        document.head.appendChild(script);
+        
         function checkAPIKey() {
             const result = document.getElementById('result');
             if (window.YOUTUBE_API_KEY) {
@@ -22,12 +39,9 @@
                     result.innerHTML = '<p style="color: blue;">ℹ️ API Key found but unusual format: ' + window.YOUTUBE_API_KEY.substring(0, 20) + '...</p>';
                 }
             } else {
-                result.innerHTML = '<p style="color: red;">❌ No API Key found - using mock data</p><p>Check if config.js exists and loads properly.</p>';
+                result.innerHTML = '<p style="color: red;">❌ No API Key found - using mock data</p><p>Check if config.js or config.local.js exists and loads properly.</p>';
             }
         }
-        
-        // Check immediately after config.js loads
-        checkAPIKey();
     </script>
 </body>
 </html>
