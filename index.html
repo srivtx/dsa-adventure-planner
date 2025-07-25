@@ -174,16 +174,8 @@
 
     <script src="data.js"></script>
     <script src="achievements.js"></script>
-    <!-- Load config.js only if it exists (for local development) -->
-    <script>
-        // Try to load config.js for local development
-        const script = document.createElement('script');
-        script.src = 'config.js';
-        script.onerror = function() {
-            console.log('No config.js found - using fallback for GitHub Pages');
-        };
-        document.head.appendChild(script);
-    </script>
+    <!-- Load config.js synchronously to ensure API key is available -->
+    <script src="config.js"></script>
     <script src="game.js"></script>
 </body>
 </html>

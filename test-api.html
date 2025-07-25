@@ -7,30 +7,27 @@
     <h1>API Key Test</h1>
     <div id="result"></div>
     
+    <!-- Load config.js synchronously -->
+    <script src="config.js"></script>
+    
     <script>
-        // Load config.js if it exists
-        const script = document.createElement('script');
-        script.src = 'config.js';
-        script.onload = function() {
-            checkAPIKey();
-        };
-        script.onerror = function() {
-            checkAPIKey();
-        };
-        document.head.appendChild(script);
-        
         function checkAPIKey() {
             const result = document.getElementById('result');
             if (window.YOUTUBE_API_KEY) {
                 if (window.YOUTUBE_API_KEY === 'YOUR_API_KEY_HERE') {
                     result.innerHTML = '<p style="color: orange;">❌ API Key is placeholder - using mock data</p>';
+                } else if (window.YOUTUBE_API_KEY.startsWith('AIza')) {
+                    result.innerHTML = '<p style="color: green;">✅ API Key loaded: ' + window.YOUTUBE_API_KEY.substring(0, 10) + '... (Real YouTube API)</p>';
                 } else {
-                    result.innerHTML = '<p style="color: green;">✅ API Key loaded: ' + window.YOUTUBE_API_KEY.substring(0, 10) + '...</p>';
+                    result.innerHTML = '<p style="color: blue;">ℹ️ API Key found but unusual format: ' + window.YOUTUBE_API_KEY.substring(0, 20) + '...</p>';
                 }
             } else {
-                result.innerHTML = '<p style="color: red;">❌ No API Key found - using mock data</p>';
+                result.innerHTML = '<p style="color: red;">❌ No API Key found - using mock data</p><p>Check if config.js exists and loads properly.</p>';
             }
         }
+        
+        // Check immediately after config.js loads
+        checkAPIKey();
     </script>
 </body>
 </html>
