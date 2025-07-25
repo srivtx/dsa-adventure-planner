@@ -24,23 +24,25 @@ jobs:
       env:
         YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
       run: |
-        # First, remove config.js from .gitignore temporarily for this build
-        if [ -f .gitignore ]; then
-          sed -i '/^config\.js$/d' .gitignore
+        # Inject API key directly into game.js instead of using separate config.js
+        if [ ! -z "$YOUTUBE_API_KEY" ]; then
+          # Replace the placeholder in game.js with the actual API key
+          sed -i "s/window\.YOUTUBE_API_KEY || 'YOUR_API_KEY_HERE'/window.YOUTUBE_API_KEY || '$YOUTUBE_API_KEY'/g" game.js
+          echo "✅ API key injected directly into game.js"
+        else
+          echo "⚠️ No API key found - using default placeholder"
         fi
         
-        # Create a production config if YouTube API key is provided via secrets
+        # Also create config.js as backup
         if [ ! -z "$YOUTUBE_API_KEY" ]; then
           echo "window.YOUTUBE_API_KEY = '$YOUTUBE_API_KEY';" > config.js
-          echo "✅ API key configured for production"
-          echo "Contents of config.js:"
-          cat config.js
         else
           echo "console.log('Running in demo mode - YouTube API not configured');" > config.js
-          echo "⚠️ No API key found - using demo mode"
         fi
         
-        # Verify the file exists and show file list
+        # Show what we've done
+        echo "Contents of modified game.js (API key line):"
+        grep -n "YOUTUBE_API_KEY.*YOUR_API_KEY_HERE\|YOUTUBE_API_KEY.*AIza" game.js || echo "API key successfully injected"
         echo "Files in root directory:"
         ls -la
     

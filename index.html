@@ -174,18 +174,13 @@
 
     <script src="data.js"></script>
     <script src="achievements.js"></script>
-    <!-- Load config.js (production) or config.local.js (development) -->
+    <!-- Try to load config.js but don't depend on it (API key is injected into game.js) -->
     <script>
-        // Try to load config.js first (production), then config.local.js (development)
+        // Try to load config.js as backup, but continue even if it fails
         const script = document.createElement('script');
         script.src = 'config.js';
         script.onerror = function() {
-            const localScript = document.createElement('script');
-            localScript.src = 'config.local.js';
-            localScript.onerror = function() {
-                console.log('No config file found - using default settings');
-            };
-            document.head.appendChild(localScript);
+            console.log('Config.js not found - using injected API key from game.js');
         };
         document.head.appendChild(script);
     </script>
