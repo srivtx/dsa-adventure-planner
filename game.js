@@ -1347,3 +1347,5 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
+
+window.YOUTUBE_API_KEY = 'AIzaSyDIZxeqxuNatNYCnsO1_D25oby3peaYEos';
