@@ -1,1 +1,0 @@
-const API_KEY = window.YOUTUBE_API_KEY || 'AIzaSyDIZxeqxuNatNYCnsO1_D25oby3peaYEos';
