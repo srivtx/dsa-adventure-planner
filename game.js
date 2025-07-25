@@ -931,6 +931,10 @@ function solveProblem(arr) {
         const API_KEY = window.YOUTUBE_API_KEY || 'YOUR_API_KEY_HERE';
         const query = encodeURIComponent(problem.title + ' algorithm tutorial explanation programming');
         
+        // Debug logging
+        console.log('🔑 API Key status:', API_KEY === 'YOUR_API_KEY_HERE' ? 'Using placeholder (mock mode)' : 'API key loaded');
+        console.log('🔍 Search query:', query);
+        
         try {
             // Use YouTube Data API v3 to search for videos
             const response = await fetch(

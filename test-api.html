@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Key Test</title>
+</head>
+<body>
+    <h1>API Key Test</h1>
+    <div id="result"></div>
+    
+    <script>
+        // Load config.js if it exists
+        const script = document.createElement('script');
+        script.src = 'config.js';
+        script.onload = function() {
+            checkAPIKey();
+        };
+        script.onerror = function() {
+            checkAPIKey();
+        };
+        document.head.appendChild(script);
+        
+        function checkAPIKey() {
+            const result = document.getElementById('result');
+            if (window.YOUTUBE_API_KEY) {
+                if (window.YOUTUBE_API_KEY === 'YOUR_API_KEY_HERE') {
+                    result.innerHTML = '<p style="color: orange;">❌ API Key is placeholder - using mock data</p>';
+                } else {
+                    result.innerHTML = '<p style="color: green;">✅ API Key loaded: ' + window.YOUTUBE_API_KEY.substring(0, 10) + '...</p>';
+                }
+            } else {
+                result.innerHTML = '<p style="color: red;">❌ No API Key found - using mock data</p>';
+            }
+        }
+    </script>
+</body>
+</html>
