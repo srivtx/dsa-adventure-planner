@@ -6,6 +6,16 @@ A gamified learning platform for mastering Data Structures and Algorithms with r
 
 ## ✨ Features
 
+- **Progressive Learning**: 8 levels from Arrays to Advanced Topics
+- **Real YouTube Integration**: Dynamic video search for each problem
+- **Gamification**: Achievements, streaks, and progress tracking
+- **Interactive Practice**: Code editor and hint system
+- **Theory Learning**: Comprehensive explanations for each topic
+- **Dark/Light Theme**: Toggle between themes
+- **Progress Export/Import**: Save and restore your learning journey
+
+## 🛠️ Local Development
+
 1. Clone this repository:
 ```bash
 git clone https://github.com/yourusername/dsa-adventure-planner.git
