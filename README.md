@@ -2,6 +2,8 @@
 
 A gamified learning platform for mastering Data Structures and Algorithms with real YouTube video integration!
 
+🌐 **Live Demo**: https://srivtx.github.io/dsa-adventure-planner
+
 ## ✨ Features
 
 - **Progressive Learning**: 8 levels from Arrays to Advanced Topics
