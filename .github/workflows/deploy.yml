@@ -24,30 +24,30 @@ jobs:
       env:
         YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
       run: |
-        # Inject API key directly into game.js instead of using separate config.js
+        # Inject API key directly into src/js/game.js instead of using separate config.js
         if [ ! -z "$YOUTUBE_API_KEY" ]; then
-          # Add the API key as a global variable at the top of game.js
-          sed -i "1i\\window.YOUTUBE_API_KEY = '$YOUTUBE_API_KEY';" game.js
+          # Add the API key as a global variable at the top of src/js/game.js
+          sed -i "1i\\window.YOUTUBE_API_KEY = '$YOUTUBE_API_KEY';" src/js/game.js
           # Also replace the placeholder in the getVideoResources function
-          sed -i "s/window\.YOUTUBE_API_KEY || 'YOUR_API_KEY_HERE'/window.YOUTUBE_API_KEY || '$YOUTUBE_API_KEY'/g" game.js
-          echo "✅ API key injected directly into game.js"
+          sed -i "s/window\.YOUTUBE_API_KEY || 'YOUR_API_KEY_HERE'/window.YOUTUBE_API_KEY || '$YOUTUBE_API_KEY'/g" src/js/game.js
+          echo "✅ API key injected directly into src/js/game.js"
           echo "Global API key set and function updated"
         else
           echo "⚠️ No API key found - using default placeholder"
         fi
         
-        # Also create config.js as backup
+        # Also create src/js/config.js as backup
         if [ ! -z "$YOUTUBE_API_KEY" ]; then
-          echo "window.YOUTUBE_API_KEY = '$YOUTUBE_API_KEY';" > config.js
+          echo "window.YOUTUBE_API_KEY = '$YOUTUBE_API_KEY';" > src/js/config.js
         else
-          echo "console.log('Running in demo mode - YouTube API not configured');" > config.js
+          echo "console.log('Running in demo mode - YouTube API not configured');" > src/js/config.js
         fi
         
         # Show what we've done
-        echo "First few lines of game.js:"
-        head -5 game.js
+        echo "First few lines of src/js/game.js:"
+        head -5 src/js/game.js
         echo "API key line in getVideoResources:"
-        grep -n "YOUTUBE_API_KEY.*YOUR_API_KEY_HERE\|YOUTUBE_API_KEY.*AIza" game.js || echo "API key successfully injected"
+        grep -n "YOUTUBE_API_KEY.*YOUR_API_KEY_HERE\|YOUTUBE_API_KEY.*AIza" src/js/game.js || echo "API key successfully injected"
         echo "Files in root directory:"
         ls -la
     
