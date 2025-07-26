@@ -8,7 +8,7 @@ class DSAGame {
             lastSolvedDate: null,
             totalSolved: 0,
             achievements: new Set(),
-            theme: 'light',
+            theme: 'dark',
             watchedVideos: new Set(),
             favoriteProblems: new Set(),
             problemNotes: {}
@@ -22,75 +22,132 @@ class DSAGame {
         };
         
         this.loadGameState();
+        this.initializeTheme();
         this.initializeEventListeners();
         this.render();
         this.checkDailyChallenge();
     }
 
     initializeEventListeners() {
+        console.log('Initializing event listeners...');
+        
         // Tab navigation
-        document.querySelectorAll('.nav-tab').forEach(tab => {
+        const navTabs = document.querySelectorAll('.nav-tab');
+        console.log('Found nav tabs:', navTabs.length);
+        
+        navTabs.forEach(tab => {
+            console.log('Adding listener to tab:', tab.dataset.level);
             tab.addEventListener('click', () => {
+                console.log('Tab clicked:', tab.dataset.level);
                 this.switchTab(tab.dataset.level);
             });
         });
 
         // Search functionality
-        document.getElementById('search-input').addEventListener('input', (e) => {
-            this.searchTerm = e.target.value.toLowerCase();
-            this.render();
-        });
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                this.searchTerm = e.target.value.toLowerCase();
+                this.render();
+            });
+        }
 
         // Filters
-        document.getElementById('difficulty-filter').addEventListener('change', (e) => {
-            this.filters.difficulty = e.target.value;
-            this.render();
-        });
+        const difficultyFilter = document.getElementById('difficulty-filter');
+        if (difficultyFilter) {
+            difficultyFilter.addEventListener('change', (e) => {
+                this.filters.difficulty = e.target.value;
+                this.render();
+            });
+        }
 
-        document.getElementById('solved-filter').addEventListener('click', () => {
-            this.filters.solved = 'solved';
-            this.render();
-        });
+        const solvedFilter = document.getElementById('solved-filter');
+        if (solvedFilter) {
+            solvedFilter.addEventListener('click', () => {
+                this.filters.solved = 'solved';
+                this.render();
+            });
+        }
 
-        document.getElementById('unsolved-filter').addEventListener('click', () => {
-            this.filters.solved = 'unsolved';
-            this.render();
-        });
+        const unsolvedFilter = document.getElementById('unsolved-filter');
+        if (unsolvedFilter) {
+            unsolvedFilter.addEventListener('click', () => {
+                this.filters.solved = 'unsolved';
+                this.render();
+            });
+        }
 
         // Theme toggle
-        document.getElementById('theme-btn').addEventListener('click', () => {
-            this.toggleTheme();
-        });
+        const themeBtn = document.getElementById('theme-btn');
+        if (themeBtn) {
+            themeBtn.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+        }
 
         // Export/Import
-        document.getElementById('export-progress').addEventListener('click', () => {
-            this.exportProgress();
-        });
+        const exportBtn = document.getElementById('export-progress');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => {
+                this.exportProgress();
+            });
+        }
 
-        document.getElementById('import-btn').addEventListener('click', () => {
-            document.getElementById('import-progress').click();
-        });
+        const importBtn = document.getElementById('import-btn');
+        if (importBtn) {
+            importBtn.addEventListener('click', () => {
+                document.getElementById('import-progress').click();
+            });
+        }
 
-        document.getElementById('import-progress').addEventListener('change', (e) => {
-            this.importProgress(e.target.files[0]);
-        });
+        const importInput = document.getElementById('import-progress');
+        if (importInput) {
+            importInput.addEventListener('change', (e) => {
+                this.importProgress(e.target.files[0]);
+            });
+        }
 
         // Modal controls
-        document.getElementById('close-modal').addEventListener('click', () => {
-            this.closeModal();
-        });
+        const closeModal = document.getElementById('close-modal');
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                this.closeModal();
+            });
+        }
 
-        document.getElementById('run-code').addEventListener('click', () => {
-            this.runCode();
-        });
+        const runCodeBtn = document.getElementById('run-code');
+        if (runCodeBtn) {
+            runCodeBtn.addEventListener('click', () => {
+                this.runCode();
+            });
+        }
 
-        document.getElementById('show-hint').addEventListener('click', () => {
-            this.showHint();
-        });
+        const showHintBtn = document.getElementById('show-hint');
+        if (showHintBtn) {
+            showHintBtn.addEventListener('click', () => {
+                this.showHint();
+            });
+        }
 
-        document.getElementById('show-solution').addEventListener('click', () => {
-            this.showSolution();
-        });
+        const showSolutionBtn = document.getElementById('show-solution');
+        if (showSolutionBtn) {
+            showSolutionBtn.addEventListener('click', () => {
+                this.showSolution();
+            });
+        }
+    }
+
+    initializeTheme() {
+        // Ensure theme button shows correct state on page load
+        const themeBtn = document.getElementById('theme-btn');
+        const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+        
+        if (themeBtn) {
+            themeBtn.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
+        }
+        
+        // Sync game state with current theme
+        this.gameState.theme = currentTheme;
     }
 
     loadGameState() {
@@ -105,15 +162,20 @@ class DSAGame {
                 this.gameState.lastSolvedDate = parsed.lastSolvedDate;
                 this.gameState.totalSolved = parsed.totalSolved || 0;
                 this.gameState.achievements = new Set(parsed.achievements || []);
-                this.gameState.theme = parsed.theme || 'light';
+                this.gameState.theme = parsed.theme || 'dark';
                 this.gameState.watchedVideos = new Set(parsed.watchedVideos || []);
                 this.gameState.favoriteProblems = new Set(parsed.favoriteProblems || []);
                 this.gameState.problemNotes = parsed.problemNotes || {};
                 
                 // Apply theme
-                if (this.gameState.theme === 'dark') {
-                    document.body.classList.add('dark-theme');
-                    document.getElementById('theme-btn').textContent = '☀️';
+                document.body.setAttribute('data-theme', this.gameState.theme);
+                const themeBtn = document.getElementById('theme-btn');
+                if (themeBtn) {
+                    if (this.gameState.theme === 'dark') {
+                        themeBtn.textContent = '☀️';
+                    } else {
+                        themeBtn.textContent = '🌙';
+                    }
                 }
             }
         } catch (error) {
@@ -146,15 +208,21 @@ class DSAGame {
         const body = document.body;
         const themeBtn = document.getElementById('theme-btn');
         
-        if (body.classList.contains('dark-theme')) {
-            body.classList.remove('dark-theme');
-            themeBtn.textContent = '🌙';
-            this.gameState.theme = 'light';
-        } else {
-            body.classList.add('dark-theme');
+        if (body.hasAttribute('data-theme') && body.getAttribute('data-theme') === 'light') {
+            body.setAttribute('data-theme', 'dark');
             themeBtn.textContent = '☀️';
             this.gameState.theme = 'dark';
+        } else {
+            body.setAttribute('data-theme', 'light');
+            themeBtn.textContent = '🌙';
+            this.gameState.theme = 'light';
         }
+        
+        // Add bounce animation
+        themeBtn.style.transform = 'scale(1.2) rotate(360deg)';
+        setTimeout(() => {
+            themeBtn.style.transform = '';
+        }, 300);
         
         this.saveGameState();
     }
@@ -182,6 +250,39 @@ class DSAGame {
         if (contentElement) {
             contentElement.classList.add('active');
             console.log('Showing content for level:', level);
+            
+            // Special handling for analytics tab
+            if (level === 'analytics') {
+                const analyticsContent = document.getElementById('analytics-content');
+                if (analyticsContent) {
+                    if (window.progressAnalytics) {
+                        console.log('Loading analytics with data...');
+                        analyticsContent.innerHTML = window.progressAnalytics.generateAnalyticsDashboard();
+                    } else {
+                        console.log('Analytics not loaded yet, showing loading message...');
+                        analyticsContent.innerHTML = `
+                            <div class="analytics-loading">
+                                <div class="modern-card" style="text-align: center; padding: 3rem;">
+                                    <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                                    <h3 style="margin-bottom: 1rem;">Loading Analytics...</h3>
+                                    <p style="margin-bottom: 2rem; color: var(--text-muted);">Analytics system is initializing. This should only take a moment.</p>
+                                    <button class="btn-primary" onclick="location.reload()">
+                                        <span class="btn-icon">🔄</span>
+                                        Refresh Page
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        
+                        // Try to initialize analytics manually if not loaded
+                        setTimeout(() => {
+                            if (window.progressAnalytics) {
+                                analyticsContent.innerHTML = window.progressAnalytics.generateAnalyticsDashboard();
+                            }
+                        }, 2000);
+                    }
+                }
+            }
         } else {
             console.error('Content element not found for level:', level);
         }
@@ -484,13 +585,13 @@ class DSAGame {
                     const isSolved = this.gameState.solvedProblems.has(problemId);
                     
                     return `
-                        <div class="problem ${isSolved ? 'solved' : ''}" data-problem-id="${problemId}">
+                        <div class="modern-card problem-card ${isSolved ? 'solved' : ''}" data-problem-id="${problemId}">
                             <div class="problem-header">
                                 <div class="problem-title-row">
                                     <h3 class="problem-title">${problem.title}</h3>
                                     <div class="problem-actions">
-                                        <span class="difficulty-badge ${problem.difficulty}">${problem.difficulty}</span>
-                                        <button class="solve-btn ${isSolved ? 'solved' : ''}" 
+                                        <span class="difficulty-badge difficulty-${problem.difficulty.toLowerCase()}">${problem.difficulty}</span>
+                                        <button class="btn-outline solve-btn ${isSolved ? 'solved' : ''}" 
                                                 onclick="game.toggleProblem(${level}, ${originalIndex})">
                                             ${isSolved ? '✅ Solved' : '⭕ Mark Solved'}
                                         </button>
@@ -515,21 +616,26 @@ class DSAGame {
                                 </div>
 
                                 <div class="problem-actions-expanded">
-                                    <button class="btn-secondary" onclick="game.openProblemModal('${problemId}')">
-                                        🔍 Practice
+                                    <button class="btn-primary action-btn" onclick="window.codeEditor && window.codeEditor.openCodeEditor('${problemId}')">
+                                        <span class="btn-icon">💻</span>
+                                        Practice Code
                                     </button>
-                                    <button class="btn-secondary" onclick="game.showHintModal('${problemId}')">
-                                        💡 More Hints
+                                    <button class="btn-secondary action-btn" onclick="game.showHintModal('${problemId}')">
+                                        <span class="btn-icon">💡</span>
+                                        More Hints
                                     </button>
-                                    <button class="btn-secondary" onclick="game.showVideoModal('${problemId}')">
-                                        🎬 Watch Video
+                                    <button class="btn-secondary action-btn" onclick="game.showVideoModal('${problemId}')">
+                                        <span class="btn-icon">🎬</span>
+                                        Watch Video
                                     </button>
-                                    <button class="btn-secondary" onclick="game.showTheoryModal('${problemId}')">
-                                        📚 Learn Theory
+                                    <button class="btn-secondary action-btn" onclick="game.showTheoryModal('${problemId}')">
+                                        <span class="btn-icon">📚</span>
+                                        Learn Theory
                                     </button>
-                                    <button class="favorite-btn ${this.gameState.favoriteProblems.has(problemId) ? 'favorited' : ''}" 
+                                    <button class="btn-outline favorite-btn ${this.gameState.favoriteProblems.has(problemId) ? 'favorited' : ''}" 
                                             onclick="game.toggleFavorite('${problemId}')">
-                                        ${this.gameState.favoriteProblems.has(problemId) ? '⭐ Favorited' : '☆ Favorite'}
+                                        <span class="btn-icon">${this.gameState.favoriteProblems.has(problemId) ? '⭐' : '☆'}</span>
+                                        ${this.gameState.favoriteProblems.has(problemId) ? 'Favorited' : 'Favorite'}
                                     </button>
                                 </div>
                             </div>
@@ -540,8 +646,12 @@ class DSAGame {
 
             ${filteredProblems.length === 0 ? `
                 <div class="no-results">
-                    <p>No problems match your current filters.</p>
-                    <button onclick="game.clearFilters()" class="btn-primary">Clear Filters</button>
+                    <div class="modern-card" style="text-align: center; padding: 3rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                        <h3 style="margin-bottom: 1rem;">No problems found</h3>
+                        <p style="margin-bottom: 2rem; color: var(--text-muted);">No problems match your current filters.</p>
+                        <button onclick="game.clearFilters()" class="btn-primary">Clear Filters</button>
+                    </div>
                 </div>
             ` : ''}
         `;
@@ -634,9 +744,18 @@ function solveProblem(arr) {
     return result;
 }"></textarea>
                 <div class="code-actions">
-                    <button id="run-code" class="btn-primary">▶️ Test Code</button>
-                    <button id="show-hint" class="btn-secondary">💡 Show Hint</button>
-                    <button id="show-solution" class="btn-secondary">📖 Show Approach</button>
+                    <button id="run-code" class="btn-primary action-btn">
+                        <span class="btn-icon">▶️</span>
+                        Test Code
+                    </button>
+                    <button id="show-hint" class="btn-secondary action-btn">
+                        <span class="btn-icon">💡</span>
+                        Show Hint
+                    </button>
+                    <button id="show-solution" class="btn-secondary action-btn">
+                        <span class="btn-icon">📖</span>
+                        Show Approach
+                    </button>
                 </div>
                 <div id="code-output"></div>
             </div>
@@ -720,7 +839,7 @@ function solveProblem(arr) {
                     '<iframe width="100%" height="315" src="' + video.url + '" frameborder="0" allowfullscreen></iframe>' +
                     '<p class="video-description">' + (video.description ? video.description.substring(0, 200) + '...' : 'No description available') + '</p>' +
                     '<div class="video-actions">' +
-                        '<button class="video-watched-btn" onclick="game.markVideoWatched(\'' + problemId + '-video' + i + '\')">✅ Mark as Watched</button>' +
+                        '<button class="btn-outline video-watched-btn" onclick="game.markVideoWatched(\'' + problemId + '-video' + i + '\')">✅ Mark as Watched</button>' +
                         '<a href="https://www.youtube.com/watch?v=' + video.id + '" target="_blank" class="watch-on-youtube">🔗 Watch on YouTube</a>' +
                     '</div>' +
                     '</div>';

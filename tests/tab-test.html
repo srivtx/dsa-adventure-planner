@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+        .nav-tab {
+            background: #333;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .nav-tab.active {
+            background: #3ecf8e;
+        }
+        .level-content {
+            display: none;
+            padding: 20px;
+            background: #2a2a2a;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .level-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Tab Switching Test</h1>
+    
+    <div class="navigation-tabs">
+        <button class="nav-tab active" data-level="overview" onclick="switchTab('overview')">📊 Overview</button>
+        <button class="nav-tab" data-level="analytics" onclick="switchTab('analytics')">📈 Analytics</button>
+        <button class="nav-tab" data-level="test" onclick="switchTab('test')">🧪 Test</button>
+    </div>
+    
+    <div class="level-content active" id="content-overview">
+        <h2>📊 Overview Content</h2>
+        <p>This is the overview tab content. Tab switching is working if you can see this.</p>
+    </div>
+    
+    <div class="level-content" id="content-analytics">
+        <h2>📈 Analytics Content</h2>
+        <p>This is the analytics tab content. If you can see this, the analytics tab is working!</p>
+        <div style="background: #333; padding: 15px; border-radius: 4px; margin: 10px 0;">
+            <strong>Test Analytics Data:</strong><br>
+            Problems Solved: 5<br>
+            Streak: 3 days<br>
+            Session Time: 25 minutes
+        </div>
+    </div>
+    
+    <div class="level-content" id="content-test">
+        <h2>🧪 Test Content</h2>
+        <p>This is the test tab content. Tab system is functional!</p>
+    </div>
+    
+    <div style="background: #2a2a2a; padding: 15px; margin: 20px 0; border-radius: 4px;">
+        <h3>Debug Info:</h3>
+        <p id="debug-info">Click tabs to test switching...</p>
+    </div>
+
+    <script>
+        function switchTab(level) {
+            console.log('Switching to tab:', level);
+            
+            // Update debug info
+            document.getElementById('debug-info').textContent = `Switched to: ${level} tab at ${new Date().toLocaleTimeString()}`;
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            const clickedTab = document.querySelector(`[data-level="${level}"]`);
+            if (clickedTab) {
+                clickedTab.classList.add('active');
+            }
+            
+            // Hide all content
+            document.querySelectorAll('.level-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected content
+            const contentElement = document.getElementById(`content-${level}`);
+            if (contentElement) {
+                contentElement.classList.add('active');
+                console.log('Content shown for:', level);
+            } else {
+                console.error('Content element not found for:', level);
+            }
+        }
+        
+        console.log('Tab test page loaded');
+    </script>
+</body>
+</html>

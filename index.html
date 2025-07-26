@@ -4,34 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DSA Adventure Planner - Complete</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="video-styles.css">
+    <link rel="stylesheet" href="src/css/styles-supabase.css">
+    <link rel="stylesheet" href="src/css/video-styles.css">
+    <link rel="stylesheet" href="src/css/code-editor-styles.css">
+    <link rel="stylesheet" href="src/css/analytics-styles.css">
 </head>
-<body>
+<body data-theme="dark">
     <div class="container">
         <div class="header">
-            <h1>🚀 DSA Adventure Planner</h1>
-            <p class="subtitle">Master Data Structures & Algorithms step by step!</p>
+            <h1 style="color: var(--primary-color); font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;">
+                🚀 DSA Adventure Planner
+            </h1>
+            <p class="subtitle" style="color: var(--text-secondary); margin-bottom: 2rem; font-size: 1.125rem;">
+                Master Data Structures & Algorithms step by step!
+            </p>
             
             <!-- Theme Toggle -->
             <div class="theme-toggle">
-                <button id="theme-btn" class="theme-btn">🌙</button>
+                <button id="theme-btn" class="btn-outline theme-btn" style="padding: 0.5rem; border-radius: 50%; width: 3rem; height: 3rem; display: flex; align-items: center; justify-content: center;">
+                    🌙
+                </button>
             </div>
             
-            <div class="stats">
-                <div class="stat-card">
+            <div class="stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                <div class="stat-card modern-card">
+                    <div style="font-size: 2rem; margin-bottom: 0.75rem;">🎯</div>
                     <span class="stat-number" id="current-level">1</span>
                     <span class="stat-label">Current Level</span>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card modern-card">
+                    <div style="font-size: 2rem; margin-bottom: 0.75rem;">✅</div>
                     <span class="stat-number" id="total-solved">0</span>
                     <span class="stat-label">Problems Solved</span>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card modern-card">
+                    <div style="font-size: 2rem; margin-bottom: 0.75rem;">📚</div>
                     <span class="stat-number" id="total-problems">400</span>
                     <span class="stat-label">Total Problems</span>
                 </div>
-                <div class="stat-card">
+                <div class="stat-card modern-card">
+                    <div style="font-size: 2rem; margin-bottom: 0.75rem;">📈</div>
                     <span class="stat-number" id="completion-rate">0%</span>
                     <span class="stat-label">Completion</span>
                 </div>
@@ -40,76 +52,152 @@
 
         <div class="content">
             <!-- Daily Challenge -->
-            <div class="daily-challenge" id="daily-challenge">
+            <div class="daily-challenge modern-card" id="daily-challenge" style="margin-bottom: 2rem; border-left: 4px solid var(--primary-color); position: relative;">
                 <div class="challenge-content">
-                    <h3>🌟 Today's Challenge</h3>
-                    <p id="challenge-text">Solve 3 array problems to start your journey!</p>
+                    <h3 style="display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">
+                        🌟 Today's Challenge
+                    </h3>
+                    <p id="challenge-text" style="margin-bottom: 1.5rem; font-size: 1.125rem; color: var(--text-secondary);">
+                        Solve 3 array problems to start your journey!
+                    </p>
                     <div class="challenge-progress">
-                        <div class="challenge-bar">
-                            <div class="challenge-fill" id="challenge-fill" style="width: 0%"></div>
+                        <div class="challenge-bar" style="background: var(--bg-surface); border-radius: 1rem; height: 0.75rem; margin-bottom: 0.75rem; overflow: hidden;">
+                            <div class="challenge-fill" id="challenge-fill" style="width: 0%; background: var(--primary-color); height: 100%; border-radius: 1rem; transition: width 0.3s ease;"></div>
                         </div>
-                        <span id="challenge-progress-text">0/3 completed</span>
+                        <span id="challenge-progress-text" style="font-weight: 500; color: var(--text-secondary);">0/3 completed</span>
                     </div>
                 </div>
             </div>
             
             <!-- Search and Filters -->
-            <div class="search-container">
-                <input type="text" class="search-input" id="search-input" placeholder="🔍 Search problems...">
-                <div class="filters">
-                    <select class="filter-select" id="difficulty-filter">
-                        <option value="all">All Difficulties</option>
-                        <option value="easy">Easy</option>
-                        <option value="medium">Medium</option>
-                    </select>
-                    <button class="filter-btn" id="solved-filter">Show Solved Only</button>
-                    <button class="filter-btn" id="unsolved-filter">Show Unsolved Only</button>
+            <div class="search-container modern-card" style="margin-bottom: 2rem;">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary);">Search Problems</label>
+                    <input type="text" class="form-input search-input" id="search-input" placeholder="🔍 Type to search problems..." style="width: 100%;">
+                </div>
+                <div class="filters" style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: end;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: var(--text-primary); font-size: 0.875rem;">Difficulty</label>
+                        <select class="form-input filter-select" id="difficulty-filter">
+                            <option value="all">All Difficulties</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 0.5rem;">
+                        <button class="btn-outline filter-btn" id="solved-filter">
+                            <span>✅</span> Solved Only
+                        </button>
+                        <button class="btn-outline filter-btn" id="unsolved-filter">
+                            <span>🔄</span> Unsolved Only
+                        </button>
+                    </div>
                 </div>
             </div>
             
             <!-- Navigation Tabs -->
-            <div class="navigation-tabs">
-                <button class="nav-tab active" data-level="all">📊 Overview</button>
-                <button class="nav-tab" data-level="1">🔢 Arrays</button>
-                <button class="nav-tab" data-level="2">👆 Pointers</button>
-                <button class="nav-tab" data-level="3">🔗 Lists</button>
-                <button class="nav-tab" data-level="4">🌳 Strings</button>
-                <button class="nav-tab" data-level="5">🕸️ Trees</button>
-                <button class="nav-tab" data-level="6">⚡ DP</button>
-                <button class="nav-tab" data-level="7">📊 Heaps</button>
-                <button class="nav-tab" data-level="8">🎯 Advanced</button>
+            <div class="navigation-tabs" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2rem; padding: 0.5rem; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--border-primary);">
+                <button class="nav-tab btn-secondary" data-level="all" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>📊</span> Overview
+                </button>
+                <button class="nav-tab btn-secondary" data-level="1" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>🔢</span> Arrays
+                </button>
+                <button class="nav-tab btn-secondary" data-level="2" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>👆</span> Pointers
+                </button>
+                <button class="nav-tab btn-secondary" data-level="3" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>🔗</span> Lists
+                </button>
+                <button class="nav-tab btn-secondary" data-level="4" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>🌳</span> Strings
+                </button>
+                <button class="nav-tab btn-secondary" data-level="5" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>🕸️</span> Trees
+                </button>
+                <button class="nav-tab btn-secondary" data-level="6" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>⚡</span> DP
+                </button>
+                <button class="nav-tab btn-secondary" data-level="7" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>📊</span> Heaps
+                </button>
+                <button class="nav-tab btn-secondary" data-level="8" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>🎯</span> Advanced
+                </button>
+                <button class="nav-tab btn-primary active" data-level="analytics" onclick="forceShowAnalytics()" style="flex: 1; min-width: fit-content; border-radius: var(--radius-md);">
+                    <span>📈</span> Analytics
+                </button>
             </div>
 
+            <script>
+                // Force show analytics function for debugging
+                function forceShowAnalytics() {
+                    console.log('Force showing analytics...');
+                    
+                    // Hide all content
+                    document.querySelectorAll('.level-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Remove active from all tabs
+                    document.querySelectorAll('.nav-tab').forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+                    
+                    // Show analytics content
+                    const analyticsContent = document.getElementById('content-analytics');
+                    if (analyticsContent) {
+                        analyticsContent.classList.add('active');
+                        console.log('Analytics content shown');
+                    } else {
+                        console.error('Analytics content not found');
+                    }
+                    
+                    // Make analytics tab active
+                    const analyticsTab = document.querySelector('[data-level="analytics"]');
+                    if (analyticsTab) {
+                        analyticsTab.classList.add('active');
+                    }
+                }
+            </script>
+
             <!-- Overview Content -->
-            <div class="level-content active" id="content-all">
-                <div class="quick-stats">
-                    <div class="quick-stat">
-                        <span class="quick-stat-number" id="unlocked-levels">1</span>
-                        <span class="quick-stat-label">Unlocked Levels</span>
+            <div class="level-content" id="content-all" style="display: none;">
+                <div class="quick-stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                    <div class="stat-card modern-card">
+                        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔓</div>
+                        <span class="stat-number" id="unlocked-levels">1</span>
+                        <span class="stat-label">Unlocked Levels</span>
                     </div>
-                    <div class="quick-stat">
-                        <span class="quick-stat-number" id="easy-solved">0</span>
-                        <span class="quick-stat-label">Easy Solved</span>
+                    <div class="stat-card modern-card">
+                        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🟢</div>
+                        <span class="stat-number" id="easy-solved">0</span>
+                        <span class="stat-label">Easy Solved</span>
                     </div>
-                    <div class="quick-stat">
-                        <span class="quick-stat-number" id="medium-solved">0</span>
-                        <span class="quick-stat-label">Medium Solved</span>
+                    <div class="stat-card modern-card">
+                        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🟡</div>
+                        <span class="stat-number" id="medium-solved">0</span>
+                        <span class="stat-label">Medium Solved</span>
                     </div>
-                    <div class="quick-stat">
-                        <span class="quick-stat-number" id="streak">0</span>
-                        <span class="quick-stat-label">Current Streak</span>
+                    <div class="stat-card modern-card">
+                        <div style="font-size: 2rem; margin-bottom: 0.75rem;">🔥</div>
+                        <span class="stat-number" id="streak">0</span>
+                        <span class="stat-label">Current Streak</span>
                     </div>
                 </div>
                 
                 <!-- Achievement System -->
-                <div class="achievements" id="achievements">
-                    <h3>🏆 Achievements</h3>
-                    <div class="achievement-grid" id="achievement-grid">
+                <div class="achievements modern-card" id="achievements" style="margin-bottom: 2rem;">
+                    <h3 style="display: flex; align-items: center; gap: 0.75rem; font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--text-primary);">
+                        🏆 Achievements
+                    </h3>
+                    <div class="achievement-grid" id="achievement-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                         <!-- Achievements will be generated by JavaScript -->
                     </div>
                 </div>
                 
-                <div class="levels-grid" id="levels-container">
+                <div class="levels-grid modern-card" id="levels-container">
                     <!-- Levels will be generated by JavaScript -->
                 </div>
             </div>
@@ -139,6 +227,66 @@
             <div class="level-content" id="content-8">
                 <div id="level-8-detail"></div>
             </div>
+            <div class="level-content" id="content-analytics" style="display: block !important;">
+                <div id="analytics-content" style="display: block !important; visibility: visible !important;">
+                    <!-- Fallback analytics content -->
+                    <div class="analytics-dashboard" style="display: block !important;">
+                        <h2>📊 Analytics Dashboard</h2>
+                        <div class="analytics-overview" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                            <div class="stat-card">
+                                <div style="font-size: 32px; margin-bottom: 10px;">🎯</div>
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">Problems Solved</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 32px; margin-bottom: 10px;">⚡</div>
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">Day Streak</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 32px; margin-bottom: 10px;">⏱️</div>
+                                <div class="stat-number">0m</div>
+                                <div class="stat-label">Avg Session</div>
+                            </div>
+                            <div class="stat-card">
+                                <div style="font-size: 32px; margin-bottom: 10px;">🎬</div>
+                                <div class="stat-number">0</div>
+                                <div class="stat-label">Videos Watched</div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: #2a2a2a; padding: 20px; margin: 20px 0; border-radius: 8px; border: 2px solid #3ecf8e;">
+                            <h3>� Progress Overview</h3>
+                            <p>Track your learning journey and see how you're improving over time!</p>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+                                <div style="background: #333; padding: 15px; border-radius: 6px; border-left: 4px solid #3ecf8e;">
+                                    <h4 style="color: #3ecf8e; margin: 0 0 10px 0;">🎯 Focus Areas</h4>
+                                    <p style="font-size: 14px; margin: 0;">Master arrays, strings, and trees to build a strong foundation.</p>
+                                </div>
+                                <div style="background: #333; padding: 15px; border-radius: 6px; border-left: 4px solid #f59e0b;">
+                                    <h4 style="color: #f59e0b; margin: 0 0 10px 0;">⚡ Study Tips</h4>
+                                    <p style="font-size: 14px; margin: 0;">Practice consistently, even 15 minutes daily makes a difference!</p>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 6px;">
+                                <h4 style="color: #6366f1; margin: 0 0 10px 0;">🚀 Next Steps</h4>
+                                <ul style="margin: 0; padding-left: 20px; font-size: 14px;">
+                                    <li>Start with Arrays fundamentals</li>
+                                    <li>Practice 2-3 problems daily</li>
+                                    <li>Review concepts regularly</li>
+                                    <li>Build your problem-solving streak</li>
+                                </ul>
+                            </div>
+                            
+                            <p style="font-size: 12px; opacity: 0.6; margin-top: 15px; text-align: center;">
+                                Your analytics will update automatically as you complete problems and lessons! 📈
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -166,24 +314,112 @@
     </div>
 
     <!-- Progress Export -->
-    <div class="export-section">
-        <button class="export-btn" id="export-progress">📤 Export Progress</button>
-        <input type="file" id="import-progress" accept=".json" style="display: none;">
-        <button class="import-btn" id="import-btn">📥 Import Progress</button>
+    <div class="export-section modern-card" style="margin-top: 2rem; text-align: center;">
+        <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">
+            💾 Progress Management
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Save your progress or import from another device
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="btn-primary export-btn" id="export-progress">
+                <span>📤</span> Export Progress
+            </button>
+            <input type="file" id="import-progress" accept=".json" style="display: none;">
+            <button class="btn-secondary import-btn" id="import-btn">
+                <span>📥</span> Import Progress
+            </button>
+        </div>
     </div>
 
-    <script src="data.js"></script>
-    <script src="achievements.js"></script>
+    <script src="src/js/data.js"></script>
+    <script src="src/js/achievements.js"></script>
     <!-- Try to load config.js but don't depend on it (API key is injected into game.js) -->
     <script>
         // Try to load config.js as backup, but continue even if it fails
         const script = document.createElement('script');
-        script.src = 'config.js';
+        script.src = 'src/js/config.js';
         script.onerror = function() {
             console.log('Config.js not found - using injected API key from game.js');
         };
         document.head.appendChild(script);
     </script>
-    <script src="game.js"></script>
+    <script src="src/js/game.js"></script>
+    <script src="src/js/code-editor.js"></script>
+    <script src="src/js/analytics.js"></script>
+    
+    <!-- Enhanced Modern UI JavaScript -->
+    <script>
+        // Enhanced button interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add enhanced interactions to all buttons
+            document.querySelectorAll('.btn-primary, .btn-secondary, .btn-outline').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // Enhanced tab navigation with modern styling
+            function updateTabStyles() {
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('btn-primary');
+                    tab.classList.add('btn-secondary');
+                });
+                
+                const activeTab = document.querySelector('.nav-tab.active');
+                if (activeTab) {
+                    activeTab.classList.remove('btn-secondary');
+                    activeTab.classList.add('btn-primary');
+                }
+            }
+
+            // Enhanced navigation with smooth transitions
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active from all tabs
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    // Add active to clicked tab
+                    this.classList.add('active');
+                    // Update styles
+                    updateTabStyles();
+                });
+            });
+
+            // Initialize tab styles
+            updateTabStyles();
+
+            // Enhanced form inputs with focus animations
+            document.querySelectorAll('.form-input').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = '';
+                });
+            });
+
+            // Show modern UI tip
+            setTimeout(() => {
+                const tip = document.createElement('div');
+                tip.innerHTML = `
+                    <div style="position: fixed; bottom: 20px; right: 20px; background: var(--bg-card); border: 1px solid var(--border-primary); padding: 12px 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-lg); z-index: 1000; max-width: 280px;">
+                        <div style="font-size: 14px; color: var(--text-primary); margin-bottom: 4px; font-weight: 600;">✨ Modern UI Active</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">Enhanced Supabase-inspired components loaded!</div>
+                    </div>
+                `;
+                document.body.appendChild(tip);
+                
+                setTimeout(() => {
+                    tip.style.opacity = '0';
+                    tip.style.transition = 'opacity 0.3s ease';
+                    setTimeout(() => tip.remove(), 300);
+                }, 3000);
+            }, 1000);
+        });
+    </script>
 </body>
 </html>
